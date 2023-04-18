@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# custom
+*.xlsx
+*.css
+*.html
+*.csv
+*.txt
+*.log
+AWETestSkript.ps1
