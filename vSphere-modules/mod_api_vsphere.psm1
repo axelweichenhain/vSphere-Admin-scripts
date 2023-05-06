@@ -1,6 +1,6 @@
 <#
     .SYNOPSIS
-        Powershell module to use for scripts and interaction with vSphere components such as vCenter, vCloud Director and ESXi hosts.
+        Powershell module to use for scripts and interaction with vSphere components such as vCenter and ESXi hosts.
 
     .DESCRIPTION
         This Module contains several functions which can be used to get access to vSpehre componets and to interact with a vSphere environment.
@@ -10,6 +10,8 @@
         - Manipuilating VMs
         - Running Reports
         - etc.
+
+        If you are using the function "Connect-vCenter_group" you first have to edit the array "$vCenters" ans add each vCenters IP or FQDN
 
     .EXAMPLE
         Import-Module "$PSScriptRoot\mod_api_vsphere.psm1"
@@ -126,6 +128,8 @@ function Connect-vCenter_group {
         E.g. to generate alamrs and sending them to Icinga.
         This function also retunrs the connection status to the given vCenter and generates an alarmstatus in case the connection fails.
         This alarm can be used in Icinga to see if the script using this function has been executed correctly.
+
+        If you are using the function "Connect-vCenter_group" you first have to edit the array "$vCenters" ans add each vCenters IP or FQDN
      
     .NOTES
         Historie:
@@ -172,14 +176,14 @@ function Connect-vCenter_group {
     # resetting exit status
     $exitstatus = 0
     # list of all production vcenters in osssso.local
-    $vcentersMCIVProd = @(
+    $vcenters = @(
         "hostname-a.domain.fqdn",
         "hostname-b.domain.fqdn",
         "hostname-c.domain.fqdn"
     )
     # for each vcenter in vcenter list
     write-output "$(Get-Date)`t$((Get-PSCallStack)[0].Command)`tConnecting to all SSO vCenters"
-    foreach ($vcenter in $vcentersMCIVProd) {
+    foreach ($vcenter in $vcenters) {
         # connect to vcenter
         write-output "$(Get-Date)`t$((Get-PSCallStack)[0].Command)`tConnecting to vCenter: $($vcenter)"
         connect-viserver -server $vCenter -user $usr_vcenter -Password $pwd_vcenter -Force
